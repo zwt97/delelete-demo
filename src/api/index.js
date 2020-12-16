@@ -4,15 +4,15 @@ let requestObj = {
   requestFun: function(type = "common", method, url = "", header = {}, data = {}, otherData = {}) {
     let httpUrl = apiConfig.baseURL + "/" + url;
     let token = localStorage.getItem('token') || "";
-    if (!token) {
-		uni.redirectTo({
-			url: "/pages/login/login"
-		});
-		return new Promise((resolve, reject) => {});
+    if (!token && !otherData.withoutToken) {
+      uni.redirectTo({
+        url: "/pages/login/login"
+      });
+      return new Promise((resolve, reject) => {});
     }
-	if (!token) {
-		return;
-	}
+    if (!token && !otherData.withoutToken) {
+      return;
+    }
     let resquestHeader = {
 		'Content-type': header && header['content-type'] ? header['content-type'] : 'application/json',
         'Accept': 'application/json',
